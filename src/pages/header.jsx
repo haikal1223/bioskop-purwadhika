@@ -14,7 +14,7 @@ import {
   DropdownItem } from 'reactstrap';
   import {connect} from 'react-redux'
   import {onLogOut} from './../redux/Action'
-
+  import {Redirect} from 'react-router-dom'
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -37,12 +37,17 @@ class Header extends React.Component {
   localStorage.removeItem('terserah')
   }
   render() {
+    
     return (
       <div>
         <Navbar color="danger" style={{backgroundImage :'linear-gradient(to left, red,orange)',border:'1px solid black'}} dark expand="md">
-          <Link to='/'>
+        {this.props.name !== '' ?  
+          <Link to='/movie-list'>
           <NavbarBrand style={{color : 'white'}}><img height='20px' src='http://pngimg.com/uploads/popcorn/popcorn_PNG69.png'/>1/2 Premiere</NavbarBrand>
-          </Link>
+          </Link>:
+            <Link to='/'>
+          <NavbarBrand style={{color : 'white'}}><img height='20px' src='http://pngimg.com/uploads/popcorn/popcorn_PNG69.png'/>1/2 Premiere</NavbarBrand>
+          </Link>}
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -51,9 +56,7 @@ class Header extends React.Component {
                 <NavLink>Manage Movie</NavLink>
                 </Link>
               </NavItem>
-              <NavItem>
-                <Link to='/register'><NavLink>Join Now!</NavLink></Link>
-              </NavItem>
+              
              {this.props.name !== ""
               ? 
              <UncontrolledDropdown nav inNavbar>
@@ -73,7 +76,10 @@ class Header extends React.Component {
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-            :null  
+            :
+            <NavItem>
+            <Link to='/register'><NavLink>Join Now!</NavLink></Link>
+          </NavItem>
             }
             </Nav>
           </Collapse>

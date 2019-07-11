@@ -3,7 +3,6 @@ import React from 'react'
 import Axios from 'axios';
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import Slider from 'react-slick'
 
 // Dari Movie List kirim Id ke Movie Detail
 // Di Movie Detail kita get movie berdasarkan ID
@@ -32,12 +31,18 @@ class MovieDetail extends React.Component{
     OnBuyTicketClick = () =>{
         if(this.props.user.id === 0){
             this.setState({login : false})
+        }else{
+            this.setState({login : true})
         }
     }
 
     render(){
         
-      
+        if(this.state.login === true){
+            return(
+                <Redirect to={{pathname :'/seat-reservation',state:this.state.data }} />
+            )
+        }
 
         if(this.state.login === false){
             return(

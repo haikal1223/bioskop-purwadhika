@@ -1,18 +1,23 @@
 import React from 'react'
 import Axios  from 'axios'
 import {Link} from 'react-router-dom'
-
+import {Redirect} from 'react-router-dom'
 import { connect} from 'react-redux'
 
 
 class MovieList extends React.Component{
 
-    state = { data : []
-            
+    state = { data : [],
+            userLogin : ''
     }
     
 
     componentDidMount(){
+        let user = localStorage.getItem('terserah')
+        if(user !== null){
+            console.log(user)
+            this.setState({userLogin : user})
+        }
         this.getDataMovies()
     }
     
@@ -37,16 +42,16 @@ class MovieList extends React.Component{
             return(
 
 
-            <div className='mt-2 mr-2'>
-                <div>
-                    
+            <div className='mt-2 mr-2'>                    
                     <div className=' mycard'>
-                    <div className='duration'>
-                        <span className='text-uppercase'>{val.duration} Min</span>
-                        </div>
+                        <div className='poster'>
+
+                   
                         <Link to={'/movie-detail?id=' + val.id}>
+                            
                         <img src={val.img} alt='Movie'     />
                         </Link>
+                        </div>
                        
                         <div className='container'>
                         <div className = 'judul-container'>
@@ -57,10 +62,6 @@ class MovieList extends React.Component{
                         <div className='genre rounded-pill'>{val.genre}</div>
                         </div>
                     </div>
-
-                </div>
-
-
             </div>
             )
         })
@@ -69,23 +70,29 @@ class MovieList extends React.Component{
     }
 
     render(){
-      
-        return(
+        if(localStorage.getItem('terserah') === null) {
+            return (
+                <Redirect to='/' />
+            )
+        }else{
+            return(
             
-            <div className='container mt-5'>
-
-               { this.props.abcd !== ""?
-                <div className='alert alert-success'>
-                    Hello , Welcome Back  {this.props.abcd}
-                </div>: null
-                }   
-            <div className='row'>
-                {this.onPrintList()}
-
-            </div>
-            </div>
-
-        )
+                <div className='container mt-5'>
+                   { this.props.abcd !== ""?
+                    <div className='alert alert-success'>
+                        Hello , Welcome Back  {this.props.abcd}
+                    </div>: null
+                    }   
+                <div className='row'>
+                    {this.onPrintList()}
+    
+                </div>
+                </div>
+    
+            )
+        }
+       
+        
     }
 }
 

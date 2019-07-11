@@ -39,9 +39,9 @@ class Login extends Component {
         }
     }
     render(){
-        if(this.props.username !== ''){
-            return(
-                <Redirect to='/movie-list' />
+        if(this.props.username !== '') {
+            return (
+                <Redirect  to='/movie-list' />
             )
         }
         return(

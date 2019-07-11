@@ -5,6 +5,9 @@ import './../../node_modules/slick-carousel/slick/slick-theme.css'
 import Axios from 'axios';
 import {ApiUrl} from './../supports/ApiUrl'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {OnRegisterSuccess} from './../redux/Action'
+import {Redirect} from 'react-router-dom'
 
 class Jumbotron extends React.Component{
     state = {
@@ -48,35 +51,48 @@ class Jumbotron extends React.Component{
             slidesToShow: 1 ,
             slidesToScroll: 1
           };
-        return(
-            <div className='main-container'>
-                <div class="jumbotron bg-transparent text-white">
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col-md-8'>
-                            <h1 class="display-4">Dapatkan Tiket Film Kesayanganmu <br/> SEKARANG!</h1>
-                            <p class="lead">Kunjungi Bioskop terdekatmu dan dapatkan promo menarik !!!</p>
-                            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                           <Link to='/login'>
-                           <div className='btn btn-outline-info'> 
-                           Login
-                           </div>
-                           </Link>
-                            </div>
-                            <div className='col-md-4' style={{border :'3px solid green '}}>
-                               <h1 class='display-4'> Now Showing</h1>
-                            <Slider {...settings}>
-                                {this.onSlider()}
-                                </Slider>
+          if(localStorage.getItem('terserah') !== null) {
+              return (
+                  <Redirect to='/movie-list' />
+              )
+          } else {
+            return(
+                <div className='main-container'>
+                    <div class="jumbotron bg-transparent text-white">
+                        <div className='container'>
+                            <div className='row'>
+                                <div className='col-md-8'>
+                                <h1 class="display-4">Dapatkan Tiket Film Kesayanganmu <br/> SEKARANG!</h1>
+                                <p class="lead">Kunjungi Bioskop terdekatmu dan dapatkan promo menarik !!!</p>
+                                <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                               <Link to='/login'>
+                               <div className='btn btn-outline-info' > 
+                               Login
+                               </div>
+                               </Link>
+                                </div>
+                                <div className='col-md-4' style={{border :'3px solid green '}}>
+                                   <h1 class='display-4'> Now Showing</h1>
+                                <Slider {...settings}>
+                                    {this.onSlider()}
+                                    </Slider>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                   
-                    </div>   
-                  
-            </div>
-        )
+                       
+                        </div>   
+                      
+                </div>
+            )
+          }
+            
+        
     }
 }
 
-export default Jumbotron
+const mapStateToProps= (state) =>{
+    return{
+        afterLogin : state.user.id
+    }
+}
+export default connect(mapStateToProps, {OnRegisterSuccess}) (Jumbotron)
