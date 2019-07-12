@@ -3,6 +3,7 @@ import {Table, TableBody,TableCell,TableRow,TableHead,Paper, Container, } from '
 import Axios from 'axios';
 import {DeleteForever,EditAttributesRounded, UsbSharp} from '@material-ui/icons'
 import {Modal,ModalBody,ModalHeader,ModalFooter, FormGroup,Label,Input} from 'reactstrap'
+import {Redirect} from 'react-router-dom'
 // Material UI ===> Google
 
 class ManageMovie extends React.Component{
@@ -49,6 +50,7 @@ class ManageMovie extends React.Component{
                     <TableCell><input ref='input5' className='form-control' type='text' defaultValue={val.playingAt}/></TableCell>                    
                     <TableCell><input ref='input6' className='form-control' type='text' defaultValue={val.duration}/></TableCell>
                     <TableCell><textarea ref='input7' className='form-control' defaultValue={val.sinopsis}/></TableCell>
+                    <TableCell><input ref='input8' className='form-control' type='text' defaultValue={val.seat}/></TableCell>
                     <TableCell><input type='button' className='btn btn-danger' value='Cancel' onClick={() => this.setState({selectedEdit : 0})}/></TableCell>
                     <TableCell><input type='button' className='btn btn-success' value='Save' onClick={ () => this.onButtonSaveEdit (index)}/></TableCell>
                 </TableRow>        
@@ -64,6 +66,7 @@ class ManageMovie extends React.Component{
                         <TableCell>{val.playingAt.join(',')}</TableCell>                    
                         <TableCell>{val.duration}</TableCell>
                         <TableCell>{this.RenderSinopsis(val.sinopsis)}...</TableCell>
+                        <TableCell>{val.seat}</TableCell>
                         <TableCell><EditAttributesRounded onClick={() => this.onButtonEdit(val.id)}/></TableCell>
                         <TableCell><DeleteForever onClick={() =>this.onButtonDelete(val.id,index)}/></TableCell>
                         </TableRow>
@@ -80,6 +83,7 @@ onButtonSaveEdit = (i) =>{
     var playingAt = this.refs.input5.value.split(',')
     var duration = this.refs.input6.value
     var sinopsis = this.refs.input7.value
+    var seat = this.refs.input8.value
 
     if(title === '' ||
     sutradara === '' ||
@@ -87,11 +91,12 @@ onButtonSaveEdit = (i) =>{
     genre === '' ||
     playingAt.length <= 0 ||
     duration <= 0 ||
-    sinopsis === ''){
+    sinopsis === '' ||
+    seat <= 0){
         alert('Isi form dengan benar')
     }else{
         var data = {
-            title,sutradara,img,genre,playingAt,duration,sinopsis
+            title,sutradara,img,genre,playingAt,duration,sinopsis,seat
         }
         Axios.put('http://localhost:2000/movies/' + this.state.selectedEdit, data)
         .then((res)=>{
@@ -156,6 +161,7 @@ onButtonDelete= (id,index) => {
        var img = this.refs.img.value
        var duration = this.refs.duration.value
        var sinopsis = this.refs.sinopsis.value
+       var seat = this.refs.seat.value
 
        var data = {
            title,
@@ -165,6 +171,7 @@ onButtonDelete= (id,index) => {
            duration,
            sutradara,
            img,
+           seat
 
 
        }
@@ -174,7 +181,8 @@ onButtonDelete= (id,index) => {
          genre !== '' &&
          img !== '' &&
          duration !== '' &&
-         sinopsis !== '' ){
+         sinopsis !== '' &&
+         seat !== ''){
 
              Axios.post('http://localhost:2000/movies',data)
              .then((res) => {
@@ -199,6 +207,14 @@ onButtonDelete= (id,index) => {
    }
 
     render(){
+        if(localStorage.getItem('terserah') === null) {
+            return (
+                <Redirect to='/' />
+
+            )
+        }else{
+
+        
         return(
            <Container fixed>
                <h1>Manage Movie Page</h1>
@@ -245,6 +261,7 @@ onButtonDelete= (id,index) => {
                                     </Label>
                             </FormGroup>
                             </div>
+                            <input type="number" ref='seat' className='form-control mt-2' placeholder='seat'/>
                             <input ref='duration' type='number' className='form-control mt-2' placeholder='Duration'/>
                             <textarea ref='sinopsis' placeholder='Synopsis' className='form-control mt-2'/> 
 
@@ -267,6 +284,8 @@ onButtonDelete= (id,index) => {
                         <TableCell>Duration</TableCell>
                         <TableCell>Sinopsis</TableCell>
                         <TableCell>Action</TableCell>
+                        <TableCell>Seat</TableCell>
+                        
                        </TableHead>
                        <TableBody>
                             {this.onPrintList()}    
@@ -277,7 +296,7 @@ onButtonDelete= (id,index) => {
         )
     }
 }
-
+}
 
 
 

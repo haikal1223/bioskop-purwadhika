@@ -4,6 +4,7 @@ import PageNotFound from './page-not-found'
 import Axios from 'axios';
 import {ApiUrl} from './../supports/ApiUrl'
 import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
 
 class SeatRes extends React.Component {
@@ -56,12 +57,11 @@ class SeatRes extends React.Component {
                 arr[i].push(1)
             }
         }
-        if(this.state.booked === [] ){
-
-            for(var i =0; i <this.state.booked.length;i++){
-                arr[this.state.booked[i][0]][this.state.booked[i][1]] = 2
-            }
+       
+        for(var i =0; i <this.state.booked.length;i++){
+            arr[this.state.booked[i][0]][this.state.booked[i][1]] = 2
         }
+        
         for(var i =0; i <this.state.chosen.length;i++){
             arr[this.state.chosen[i][0]][this.state.chosen[i][1]] = 3
         }
@@ -138,8 +138,11 @@ class SeatRes extends React.Component {
         if(this.props.location.state === undefined){
             return(
                 <PageNotFound/>
-            )
-        }
+            )  
+        } if(localStorage.getItem('terserah') === null) {
+            return (
+                <Redirect to='/' />
+            )}
         return(
             <div className='container mt-5 mb-5 '>
                 <h1 style={{color : 'white'}}>{this.props.location.state.title}</h1>

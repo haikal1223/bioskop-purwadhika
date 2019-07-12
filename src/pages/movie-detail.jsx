@@ -43,6 +43,7 @@ class MovieDetail extends React.Component{
                 <Redirect to={{pathname :'/seat-reservation',state:this.state.data }} />
             )
         }
+        
 
         if(this.state.login === false){
             return(
@@ -51,7 +52,10 @@ class MovieDetail extends React.Component{
         }
         if(this.state.data===null){
             return (<p>Loading.... </p>)
-        }
+        } if(localStorage.getItem('terserah') === null) {
+            return (
+                <Redirect to='/' />
+            )}
         return(
             <div className='container mt-5 mb-5'>
 

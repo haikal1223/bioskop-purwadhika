@@ -16,6 +16,7 @@ import seatReservasion from './pages/seat-reservation'
 import Jumbo from './pages/jumbotron'
 import Errorpage from './pages/page-not-found'
 import Cart from './pages/cart'
+import history from './pages/history-transaction'
 
 class App extends React.Component{
  componentDidMount(){
@@ -51,6 +52,7 @@ class App extends React.Component{
         <Route path='/contoh' component={Carrousel}/>
         <Route path='/seat-reservation' component={seatReservasion} />
         <Route path='/cart' component={Cart}/>
+        <Route path='/transaction' component={history}/>
         <Route path='*' component={Errorpage} />
         </Switch>
       </div>

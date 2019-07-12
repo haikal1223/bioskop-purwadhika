@@ -36,6 +36,7 @@ class Header extends React.Component {
   this.props.onLogOut()
   localStorage.removeItem('terserah')
   }
+
   render() {
     
     return (
@@ -52,27 +53,39 @@ class Header extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <Link to='/manage-movie'>
-                <NavLink>Manage Movie</NavLink>
-                </Link>
+             
               </NavItem>
               
              {this.props.name !== ""
               ? 
              <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                {this.props.name  }
+                {this.props.name}
                 </DropdownToggle>
                 <DropdownMenu right>
+                { this.props.name !== '' ?
+                    <DropdownItem >
+                    <Link to='/cart'>
+                    <NavLink style={{color : 'black', textDecoration: 'none'}}>
+                   Cart
+                    </NavLink>
+                    </Link>
+                  </DropdownItem> : alert('Silahkan Login')
+                }
                   <DropdownItem>
-                    Option 1
-                  </DropdownItem>
-                  <DropdownItem>
-                    Option 2
+                   Transaction
                   </DropdownItem>
                   <DropdownItem divider />
+                  <DropdownItem>
+                  {this.props.code === "admin"?
+                  <Link to='/manage-movie'>
+                <NavLink style={{color : 'black'}}>Manage Movie</NavLink>
+                </Link>
+                :  null
+                }
+                  </DropdownItem>
                   <DropdownItem onClick={this.OnBtnLogoutClick}>
-                    LogOut
+                  LogOut
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -80,7 +93,7 @@ class Header extends React.Component {
             <NavItem>
             <Link to='/register'><NavLink>Join Now!</NavLink></Link>
           </NavItem>
-            }
+             }
             </Nav>
           </Collapse>
         </Navbar>
@@ -91,7 +104,9 @@ class Header extends React.Component {
 
 const mapStateToProps = (state) =>{
   return{
-    name : state.user.username
+    name : state.user.username,
+    code : state.user.code
+    
   }
 }
 
