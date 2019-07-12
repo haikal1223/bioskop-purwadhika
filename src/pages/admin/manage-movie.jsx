@@ -4,6 +4,7 @@ import Axios from 'axios';
 import {DeleteForever,EditAttributesRounded, UsbSharp} from '@material-ui/icons'
 import {Modal,ModalBody,ModalHeader,ModalFooter, FormGroup,Label,Input} from 'reactstrap'
 import {Redirect} from 'react-router-dom'
+import { ApiUrl } from '../../supports/ApiUrl';
 // Material UI ===> Google
 
 class ManageMovie extends React.Component{
@@ -120,6 +121,7 @@ onButtonDelete= (id,index) => {
             var data = this.state.data
             data.splice(index,1)
             this.setState({data : data})
+          
         })
         .catch((err) =>{
 
@@ -161,7 +163,6 @@ onButtonDelete= (id,index) => {
        var img = this.refs.img.value
        var duration = this.refs.duration.value
        var sinopsis = this.refs.sinopsis.value
-       var seat = this.refs.seat.value
 
        var data = {
            title,
@@ -171,7 +172,6 @@ onButtonDelete= (id,index) => {
            duration,
            sutradara,
            img,
-           seat
 
 
        }
@@ -181,8 +181,8 @@ onButtonDelete= (id,index) => {
          genre !== '' &&
          img !== '' &&
          duration !== '' &&
-         sinopsis !== '' &&
-         seat !== ''){
+         sinopsis !== ''
+        ){
 
              Axios.post('http://localhost:2000/movies',data)
              .then((res) => {
@@ -261,7 +261,6 @@ onButtonDelete= (id,index) => {
                                     </Label>
                             </FormGroup>
                             </div>
-                            <input type="number" ref='seat' className='form-control mt-2' placeholder='seat'/>
                             <input ref='duration' type='number' className='form-control mt-2' placeholder='Duration'/>
                             <textarea ref='sinopsis' placeholder='Synopsis' className='form-control mt-2'/> 
 
@@ -284,7 +283,6 @@ onButtonDelete= (id,index) => {
                         <TableCell>Duration</TableCell>
                         <TableCell>Sinopsis</TableCell>
                         <TableCell>Action</TableCell>
-                        <TableCell>Seat</TableCell>
                         
                        </TableHead>
                        <TableBody>

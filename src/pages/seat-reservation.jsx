@@ -20,6 +20,7 @@ class SeatRes extends React.Component {
     //         this.setState({booked : this.props.location.state.booked})
      Axios.get(ApiUrl + '/movies/' + this.props.location.state.id) 
      .then((res)=>{
+         
          this.setState({booked : res.data.booked})
      })
      .catch((err)=>{
@@ -113,7 +114,7 @@ class SeatRes extends React.Component {
                     title : this.props.location.state.title,
                     qty : this.state.chosen.length,
                     total : this.state.chosen.length * 35000,
-                    seatChoosen : this.state.chosen
+                    booked : this.state.chosen
                 }
                 cart.push(obj)
                 Axios.patch(ApiUrl + '/users/' + this.props.id,{

@@ -4,7 +4,7 @@ import Axios from 'axios';
 import {connect} from 'react-redux'
 import { ApiUrl } from '../supports/ApiUrl';
 import numeral from 'numeral'
-
+import {Redirect} from 'react-router-dom'
 
 class Transaction extends React.Component{
    state={
@@ -44,7 +44,11 @@ class Transaction extends React.Component{
    }
 
     render(){
-
+        if(localStorage.getItem('terserah') === null) {
+            return (
+                <Redirect to='/' />
+            )}
+            else{
 
         return(
             <div className='container'>
@@ -69,6 +73,7 @@ class Transaction extends React.Component{
 
         )
     }
+}
 }
 const mapStateToProps = (state) =>{
     return{

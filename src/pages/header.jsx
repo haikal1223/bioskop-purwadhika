@@ -73,7 +73,12 @@ class Header extends React.Component {
                   </DropdownItem> : alert('Silahkan Login')
                 }
                   <DropdownItem>
+                    <Link to='/transaction'>
+                    <NavLink style={{color : 'black'}}>
                    Transaction
+
+                    </NavLink>
+                    </Link>
                   </DropdownItem>
                   <DropdownItem divider />
                   <DropdownItem>
